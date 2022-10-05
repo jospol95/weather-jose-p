@@ -3,20 +3,22 @@
     <div class="weather-header section">
       <h2>CURRENT WEATHER</h2>
       <p class="weather-number">
-        {{ Math.round(weather * 100) / 100 }} &#176;{{ weatherUnit }}
+        {{ Math.floor(weatherDetails.weather) }} &#176;{{
+          weatherDetails.units
+        }}
       </p>
       <span>{{ weatherDetails.state }}</span>
-      <p>{{ cityName }} | {{ countryName }}</p>
+      <p>{{ weatherDetails.city }} | {{ weatherDetails.country }}</p>
     </div>
     <div class="weather-details section">
-      <h4>HUMIDITY {{ weatherDetails.humidity }} %</h4>
-      <p>WIND {{ weatherDetails.wind }} M/S</p>
-      <p>SUNRISE {{ weatherDetails.sunriseDateTime }}</p>
-      <p>SUNSET {{ weatherDetails.sunsetDateTime }}</p>
+      <h4>HUMIDITY -> {{ weatherDetails.humidity }} %</h4>
+      <p>WIND -> {{ weatherDetails.wind }} M/S</p>
+      <p>SUNRISE -> {{ weatherDetails.sunriseDateTime }}</p>
+      <p>SUNSET -> {{ weatherDetails.sunsetDateTime }}</p>
     </div>
     <div class="weather-footer section">
       <button @click="this.changeWeatherUnit()">
-        Show me {{ this.showOppositeUnitSelected() }}
+        Show me {{ this.showOppositeUnitToSelect() }}
       </button>
     </div>
   </div>
@@ -29,14 +31,11 @@ export default {
       count: 0,
       backgroundUrl: String,
       weatherUnit: String,
-      weather: Number,
+      weather: 0,
     };
   },
   props: {
-    countryName: String,
-    cityName: String,
     opacity: Number,
-    // cardOpacity: Number,
     weatherDetails: {
       state: String,
       weather: Number,
@@ -45,29 +44,26 @@ export default {
       wind: Number,
       sunriseDateTime: Date,
       sunsetDateTime: Date,
+      city: String,
+      country: String,
     },
   },
   methods: {
-    showOppositeUnitSelected: function () {
-      if (this.weatherUnit === "F") {
+    showOppositeUnitToSelect: function () {
+      if (this.weatherDetails.units === "F") {
         return "Celsius";
       }
       return "Fahrenheit";
     },
     changeWeatherUnit: function () {
-      if (this.weatherUnit === "F") {
-        this.weatherUnit = "C";
-        this.weather = (this.weather - 32) * (5 / 9);
-      } else {
-        this.weatherUnit = "F";
-        this.weather = this.weather * (9 / 5) + 32;
-      }
+      this.$emit("changeWeatherUnitEvent");
     },
   },
-  beforeMount() {
-    debugger;
-    this.weather = this.weatherDetails.weather;
-    this.weatherUnit = this.weatherDetails.units;
+  mounted() {
+    // debugger;
+    // this.weather = this.weatherDetails.weather;
+    // this.weatherUnit = this.weatherDetails.units;
+    // console.log(this.weatherDetails.weather);
   },
 };
 </script>
@@ -79,8 +75,8 @@ export default {
   height: 400px;
   background: white;
   position: relative;
-  top: 21%;
-  left: 34%;
+  margin: auto;
+  transform: translate(0, 60%);
 }
 
 h2 {
