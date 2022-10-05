@@ -3,7 +3,7 @@
     <div class="weather-header section">
       <h2>CURRENT WEATHER</h2>
       <p class="weather-number">
-        {{ weatherDetails.weather }} &#176;{{ weatherDetails.units }}
+        {{ Math.round(weather * 100) / 100 }} &#176;{{ weatherUnit }}
       </p>
       <span>{{ weatherDetails.state }}</span>
       <p>{{ cityName }} | {{ countryName }}</p>
@@ -15,7 +15,9 @@
       <p>SUNSET {{ weatherDetails.sunsetDateTime }}</p>
     </div>
     <div class="weather-footer section">
-      <p>Toggle</p>
+      <button @click="this.changeWeatherUnit()">
+        Show me {{ this.showOppositeUnitSelected() }}
+      </button>
     </div>
   </div>
 </template>
@@ -26,6 +28,8 @@ export default {
     return {
       count: 0,
       backgroundUrl: String,
+      weatherUnit: String,
+      weather: Number,
     };
   },
   props: {
@@ -43,7 +47,28 @@ export default {
       sunsetDateTime: Date,
     },
   },
-  methods: {},
+  methods: {
+    showOppositeUnitSelected: function () {
+      if (this.weatherUnit === "F") {
+        return "Celsius";
+      }
+      return "Fahrenheit";
+    },
+    changeWeatherUnit: function () {
+      if (this.weatherUnit === "F") {
+        this.weatherUnit = "C";
+        this.weather = (this.weather - 32) * (5 / 9);
+      } else {
+        this.weatherUnit = "F";
+        this.weather = this.weather * (9 / 5) + 32;
+      }
+    },
+  },
+  beforeMount() {
+    debugger;
+    this.weather = this.weatherDetails.weather;
+    this.weatherUnit = this.weatherDetails.units;
+  },
 };
 </script>
 
