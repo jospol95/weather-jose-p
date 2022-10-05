@@ -3,16 +3,16 @@
     <div class="weather-header section">
       <h2>CURRENT WEATHER</h2>
       <p class="weather-number">
-        {{ weatherDetails.weather }} &#176;{{ weatherDetails.degreeType }}
+        {{ weatherDetails.weather }} &#176;{{ weatherDetails.units }}
       </p>
       <span>{{ weatherDetails.state }}</span>
       <p>{{ cityName }} | {{ countryName }}</p>
     </div>
     <div class="weather-details section">
-      <h4>HUMIDITY 73%</h4>
-      <p>WIND 6.2 M/S</p>
-      <p>SUNRISE 05:41</p>
-      <p>SUNSET 20:06</p>
+      <h4>HUMIDITY {{ weatherDetails.humidity }} %</h4>
+      <p>WIND {{ weatherDetails.wind }} M/S</p>
+      <p>SUNRISE {{ weatherDetails.sunriseDateTime }}</p>
+      <p>SUNSET {{ weatherDetails.sunsetDateTime }}</p>
     </div>
     <div class="weather-footer section">
       <p>Toggle</p>
@@ -36,11 +36,11 @@ export default {
     weatherDetails: {
       state: String,
       weather: Number,
-      degreeType: String,
-      Humidity: Number,
-      Wind: Number,
-      SunriseDateTime: Date,
-      SunsetDateTime: Date,
+      units: String,
+      humidity: Number,
+      wind: Number,
+      sunriseDateTime: Date,
+      sunsetDateTime: Date,
     },
   },
   methods: {},
@@ -50,17 +50,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #weather-tile {
-  /*opacity: 0.7;*/
   width: 400px;
   height: 400px;
   background: white;
-  /*margin: 0;*/
-  /*position: absolute;*/
   position: relative;
-  top: 20%;
-  left: 37%;
-  /*-ms-transform: translate(-50%, -50%);*/
-  /*transform: translate(-50%, -50%);*/
+  top: 21%;
+  left: 34%;
 }
 
 h2 {
