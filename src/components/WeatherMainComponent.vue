@@ -69,7 +69,7 @@ export default {
   background: white;
   position: relative;
   margin: auto;
-  transform: translate(0, 50%);
+  transform: translate(0, 53%);
 }
 
 h2 {

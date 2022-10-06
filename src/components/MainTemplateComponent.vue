@@ -159,6 +159,7 @@ export default {
     },
     setBackgroundForWeather: function () {
       // The idea here is to change the background depending on the weather state :) I tried to include all of them.
+      const hours = new Date().getHours();
       switch (this.weatherDetails.state) {
         case "Clouds":
           this.backgroundUrl =
@@ -175,8 +176,9 @@ export default {
           this.opacity = 0.7;
           break;
         case "Clear":
-          if (new Date().getHours() > 6) {
-            //Check if nighttime.
+          // eslint-disable-next-line no-case-declarations
+          const dayTime = hours > 6 && hours < 19;
+          if (!dayTime) {
             this.backgroundUrl =
               "https://media3.giphy.com/media/LoNF8cgrrwYju5DxQL/giphy.gif?cid=790b7611b7dd48ff3cf72f1e93f65404fa27ae500b9a36c6&rid=giphy.gif&ct=g";
             this.opacity = 0.7;
