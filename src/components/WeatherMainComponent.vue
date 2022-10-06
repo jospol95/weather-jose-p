@@ -59,16 +59,9 @@ export default {
       this.$emit("changeWeatherUnitEvent");
     },
   },
-  mounted() {
-    // debugger;
-    // this.weather = this.weatherDetails.weather;
-    // this.weatherUnit = this.weatherDetails.units;
-    // console.log(this.weatherDetails.weather);
-  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #weather-tile {
   width: 400px;
@@ -76,7 +69,7 @@ export default {
   background: white;
   position: relative;
   margin: auto;
-  transform: translate(0, 60%);
+  transform: translate(0, 50%);
 }
 
 h2 {

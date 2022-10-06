@@ -31,7 +31,7 @@ import WeatherMainComponent from "../components/WeatherMainComponent.vue";
 export default {
   data() {
     return {
-      apiKey: "14379316db7e5f1e4b19630f0bd124c9",
+      apiKey: "14379316db7e5f1e4b19630f0bd124c9", //only for assignment purposes. but this should keep secret.
       backgroundUrl: String,
       opacity: Number,
       countryName: String,
@@ -59,6 +59,9 @@ export default {
   },
   methods: {
     callGeoLocationAndGetWeather: function () {
+      // Initialize position
+      this.positionCoordinates.userLatitude = null;
+      this.positionCoordinates.userLongitude = null;
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.positionCoordinates.userLatitude = position.coords.latitude;
@@ -70,7 +73,7 @@ export default {
             return;
           }
 
-          //Coordinate hasn't changed, and we have a weather object save in Local Storage.
+          //Coordinate hasn't changed, and we have a weather object saved in Local Storage.
           this.weatherDetails = JSON.parse(
             localStorage.getItem("weatherDetails")
           );
@@ -79,8 +82,6 @@ export default {
         },
         (error) => {
           console.log(error.message);
-          this.positionCoordinates.userLatitude = null;
-          this.positionCoordinates.userLongitude = null;
         }
       );
     },
@@ -131,7 +132,7 @@ export default {
       localStorage.setItem(keyName, JSON.stringify(keyValue));
     },
     getWeather: function () {
-      //We'll always ask for Fahrenheit (imperial), we'll make calculations in the system.
+      // We'll always ask for Fahrenheit (imperial), we'll make calculations in the system.
       const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.positionCoordinates.userLatitude}&lon=${this.positionCoordinates.userLongitude}&appid=${this.apiKey}&units=imperial`;
       fetch(url, {
         method: "GET",
@@ -157,6 +158,7 @@ export default {
         });
     },
     setBackgroundForWeather: function () {
+      // The idea here is to change the background depending on the weather state :) I tried to include all of them.
       switch (this.weatherDetails.state) {
         case "Clouds":
           this.backgroundUrl =
@@ -187,7 +189,7 @@ export default {
         default:
           this.opacity = 1;
           this.backgroundUrl =
-            "data:image/jpeg;base64,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";
+            "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-sky-blue-solid-color-background.jpg";
       }
     },
   },
