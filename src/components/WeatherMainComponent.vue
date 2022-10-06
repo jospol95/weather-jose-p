@@ -1,5 +1,9 @@
 <template>
-  <div id="weather-tile" v-bind:style="{ opacity: opacity }">
+  <div
+    v-if="weatherDetails != null"
+    id="weather-tile"
+    v-bind:style="{ opacity: opacity }"
+  >
     <div class="weather-header section">
       <h2>CURRENT WEATHER</h2>
       <p class="weather-number">
